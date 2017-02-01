@@ -1,6 +1,7 @@
 *.suo
 *.cache
 
-NodeNetwork/.vs
-NodeNetwork/packages
-NodeNetwork/obj
+*/bin
+*/obj
+*/packages
+*/.vs

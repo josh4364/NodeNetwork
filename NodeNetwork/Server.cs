@@ -3,34 +3,45 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Neo4j.Driver.V1;
+using Neo4jClient;
+using Newtonsoft.Json;
 
 namespace NodeNetwork
 {
-    class Server
+    public class Server
     {
+        public class Movie
+        {
+            [JsonProperty(PropertyName = "title")]
+            public string Title { get; set; }
 
+            [JsonProperty(PropertyName = "released")]
+            public int Released { get; set; }
 
+            [JsonProperty(PropertyName = "tagline")]
+            public string TagLine { get; set; }
+        }
+
+        private GraphClient client;
 
         public void Connect()
         {
-            //Example Code: https://neo4j.com/developer/dotnet/
+            client = new GraphClient(new Uri("http://localhost:7474/db/data"), "neo4j", "asdf");
+            client.Connect();
 
-            using (var driver = GraphDatabase.Driver("bolt://localhost:7687", AuthTokens.Basic("neo4j", "neo4j")))
-            using (var session = driver.Session())
-            {
-                session.Run("CREATE (a:Person {name: {name}, title: {title}})",
-                            new Dictionary<string, object> { { "name", "Arthur" }, { "title", "King" } });
+            var movies = client.Cypher
+                  .Match("(m:Movie)")
+                  .Return(m => m.As<Movie>())
+                  .Limit(10)
+                  .Results;
 
-                var result = session.Run("MATCH (a:Person) WHERE a.name = {name} " +
-                                         "RETURN a.name AS name, a.title AS title",
-                                         new Dictionary<string, object> { { "name", "Arthur" } });
+            foreach (var movie in movies)
+                Console.WriteLine("{0} ({1}) - {2}", movie.Title, movie.Released, movie.TagLine);
+        }
 
-                foreach (var record in result)
-                {
-                    Console.WriteLine($"{record["title"].As<string>()} {record["name"].As<string>()}");
-                }
-            }
+        public void Disconnect()
+        {
+            client.Dispose();
         }
     }
 }
