@@ -9,7 +9,6 @@ namespace NodeNetwork
     {
         private void Tick(float deltaTime)
         {
-
         }
     }
 }
