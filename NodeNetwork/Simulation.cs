@@ -5,7 +5,11 @@ using System.Text;
 
 namespace NodeNetwork
 {
-    public class Class1
+    public class Simulation
     {
+        private void Tick(float deltaTime)
+        {
+
+        }
     }
 }
