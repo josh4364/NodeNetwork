@@ -1,0 +1,37 @@
+//purge db
+
+match(n) detach delete(n)
+
+
+//Create Joel and his child timmy
+
+create (a:Person {name:"Joel"}), (b:Person {name:"Timmy"})
+create (b) -[r:Related{Type:"Child"}]-> (a)
+create (a) -[c:Related{Type:"Parent"}]-> (b)
+return a, b, r, c
+
+
+//Create Milisa and her child kate
+
+create (a:Person {name:"Milisa"}), (b:Person {name:"Kate"})
+create (b) -[r:Related{Type:"Child"}]-> (a)
+create (a) -[c:Related{Type:"Parent"}]-> (b)
+return a, b, r, c
+
+
+//make milisa a parent of timmy and timmy a child of hers
+
+match (m:Person{name:"Milisa"})
+match (t:Person{name:"Timmy"})
+merge (m) -[:Related{Type:"Parent"}]-> (t)
+return m, t
+
+
+//Find Relationships that start at timmy
+MATCH (n:Person { name: 'Timmy' })-[a:Related]-(nn) RETURN n,nn, a
+
+
+//return all people and their relationships
+
+match(a:Person)-[r:Related]->(b:Person) return a, r, b
+

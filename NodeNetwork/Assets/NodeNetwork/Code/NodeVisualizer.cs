@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
+using System.Text;
 using UnityEngine;
 
 
 public class NodeVisualizer : MonoBehaviour
 {
     public GameObject NodePrefab;
+    public string requestJson;
     public Root responceRoot;
 
     void Start()
@@ -24,8 +26,8 @@ public class NodeVisualizer : MonoBehaviour
             //grab request stream so we can send some json
             var requestStream = new StreamWriter(wreq.GetRequestStream());
 
-            var requestJson = "{\"statements\" : [ {\"statement\" : \"MATCH (n) RETURN (n)\"} ]}";
-            requestStream.Write(requestJson);
+            //var requestJson = "{\"statements\" : [ {\"statement\" : \"MATCH (n) RETURN (n)\"} ]}";
+            requestStream.Write("{\"statements\" : [ { \"statement\" : \"" + requestJson + "\", \"resultDataContents\" : [ \"graph\" ] } ]}");
 
             //close up the io
             requestStream.Flush();
@@ -51,11 +53,30 @@ public class NodeVisualizer : MonoBehaviour
         catch (WebException webex)
         {
             Debug.Log(webex.Message);
+
+            return;
         }
+
+
         //create a game node to represent
         var go = Instantiate(NodePrefab);
         go.transform.position = Vector3.zero;
 
+        var data = responceRoot.results[0].data;
+
+        var sb = new StringBuilder();
+
+        for (int i = 0; i < data.Count; i++)
+        {
+            sb.AppendLine("Data " + i + ":");
+
+            for (int r = 0; r < data[i].row.Count; r++)
+            {
+                sb.AppendLine("    Row:" + r + ", " + data[i].row[r].name);
+            }
+        }
+
+        Debug.Log(sb);
     }
 
 
@@ -77,10 +98,47 @@ public class Meta
 }
 
 [Serializable]
+public class NodeProperties
+{
+    public string name;
+}
+
+[Serializable]
+public class Node
+{
+    public string id;
+    public List<string> labels;
+    public NodeProperties properties;
+}
+
+[Serializable]
+public class Graph
+{
+    public List<Node> nodes;
+    public List<Relationship> relationships;
+}
+
+[Serializable]
+public class RelationshipProperties
+{
+    public string Type;
+}
+
+[Serializable]
+public class Relationship
+{
+    public string id;
+    public string type;
+    public string startNode;
+    public string endNode;
+    public RelationshipProperties properties;
+}
+
+[Serializable]
 public class Data
 {
     public List<Person> row;
-    public List<Meta> meta;
+    public Graph graph;
 }
 
 [Serializable]
@@ -94,8 +152,4 @@ public class Result
 public class Root
 {
     public List<Result> results;
-    public List<object> errors;
 }
-
-
-
