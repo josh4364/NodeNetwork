@@ -1,4 +1,5 @@
 ﻿using NeoUnity;
+using NeoUnity.Neo4j;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,14 +8,51 @@ public class UIManager : MonoBehaviour
     public GameObject LeftMenuPanel;
     public GameObject SelectedObject;
 
+    [Header("Query")]
     public Text QueryText;
+
+    [Header("Remember")]
+    public Text RememberText;
+    public Text RememberDataText;
+    public Text RememberRelatedText;
+
+    [Header("Forget")]
+    public Text ForgetText;
 
     private const float _tSpeed = 100;
     private bool _leftMenu;
     private bool _leftMenuMoving;
-    
-    
 
+
+    public void ForgetEverything()
+    {
+        Server.Query("MATCH (n:Unity) DETACH DELETE (n)");
+    }
+
+    public void Forget()
+    {
+        Debug.Log(Server.Query($"MATCH (n:Unity {{Name:\"{ForgetText.text}\"}}) DETACH DELETE (n)"));
+    }
+
+    public void Remember()
+    {
+        if (RememberRelatedText.text != "")
+        {
+            RootObject s = Server.QueryObject($"MATCH (n:Unity {{Name:\"{RememberRelatedText.text}\"}}) RETURN (n)");
+            if (s.results[0].data.Count > 0)
+            {
+                Server.Query($"MERGE (n:Unity {{Name:\"{RememberText.text}\", data\"{RememberDataText.text}\"}}) -[r:Rel]-> MATCH (p:Unity {{Name:\"{RememberRelatedText.text}\"}}) return n,r,p");
+            }
+            else
+            {
+                Server.Query($"MERGE (n:Unity {{Name:\"{RememberText.text}\", data\"{RememberDataText.text}\"}}) -[r:Rel]-> MERGE (p:Unity {{Name:\"{RememberRelatedText.text}\"}}) return n,r,p");
+            }
+        }
+        else
+        {
+            Server.Query($"MERGE (n:Unity {{Name:\"{RememberText.text}\", data\"{RememberDataText.text}\"}})");
+        }
+    }
 
     void Update()
     {
@@ -90,9 +128,9 @@ public class UIManager : MonoBehaviour
         Gizmos.color = Color.yellow;
         Gizmos.DrawSphere(p, 1);
     }
-    public void RunQuery()
+    public void Recall()
     {
-        NeoUnity.Neo4j.Server.Query(QueryText.text);
+        Server.Query(QueryText.text);
     }
     public void ToggleMenu()
     {
