@@ -65,6 +65,7 @@ public class UIManager : MonoBehaviour
 
         if (SelectedObject)
         {
+
             SelectedObject.transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition + new Vector3(0, 0, 10));
         }
 
