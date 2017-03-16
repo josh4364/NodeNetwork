@@ -1,7 +1,3 @@
-*.suo
-*.cache
-*.csproj
-
 */bin
 */obj
 */packages
