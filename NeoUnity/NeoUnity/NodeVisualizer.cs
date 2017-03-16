@@ -73,7 +73,7 @@ namespace NeoUnity
 
 
                         nodes.Add(n.ID, n);
-                        x += 2.0f;
+                        //x += 2.0f;
                     }
 
                 }

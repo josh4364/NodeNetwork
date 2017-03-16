@@ -7,6 +7,7 @@ public class UIManager : MonoBehaviour
 {
     public GameObject LeftMenuPanel;
     public GameObject SelectedObject;
+    public GameObject NodeCardPrefab;
 
     [Header("Query")]
     public Text QueryText;
@@ -23,6 +24,8 @@ public class UIManager : MonoBehaviour
     private bool _leftMenu;
     private bool _leftMenuMoving;
 
+
+    private GameObject _nodeCard;
 
     public void ForgetEverything()
     {
@@ -88,13 +91,39 @@ public class UIManager : MonoBehaviour
         if (Input.GetMouseButton(0))
         {
             Ray r = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit rh;
-            if (Physics.Raycast(r, out rh, float.PositiveInfinity))
+            RaycastHit2D rh = Physics2D.GetRayIntersection(r, Mathf.Infinity);
+            
+            if (rh)
             {
                 if (rh.collider.tag == "Node")
                 {
                     SelectedObject = rh.collider.gameObject;
+                    if (!_nodeCard)
+                    {
+                        _nodeCard = Instantiate(NodeCardPrefab);
+                        _nodeCard.transform.parent = SelectedObject.transform;
+                        _nodeCard.transform.localPosition = new Vector3(1, 1);
+
+                        NeoUnity.Node n = SelectedObject.GetComponent<NeoUnity.Node>();
+
+
+                        _nodeCard.transform.GetChild(0).GetChild(1).GetChild(0).GetComponent<Text>().text = "Name: "+n.Name + "\nData: " + n.Data;
+                    }
+
+                    if (_nodeCard.transform.parent != SelectedObject.transform)
+                    {
+                        DestroyImmediate(_nodeCard);
+                    }
+
+
+                    
+
                 }
+            }
+            else
+            {
+                DestroyImmediate(_nodeCard);
+
             }
         }
 
