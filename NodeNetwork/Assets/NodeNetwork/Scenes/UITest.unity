@@ -104,6 +104,7 @@ GameObject:
   - component: {fileID: 188470212}
   - component: {fileID: 188470211}
   - component: {fileID: 188470216}
+  - component: {fileID: 188470217}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -140,8 +141,8 @@ Camera:
   m_GameObject: {fileID: 188470210}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
@@ -191,6 +192,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SelectedObject: {fileID: 0}
+--- !u!114 &188470217
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 188470210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 694212805, guid: 30bf353ae3a8bf34995028ae003d74fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NodePrefab: {fileID: 1757042146558276, guid: 0f67c4e74d1a4b341ba97fe83bdf4b5d, type: 2}
+  Query: match (n) return n
+  Username: neo4j
+  Password: asdf12
+  Server: 52.32.246.48:7474
+  DebugLog: 1
 --- !u!1 &783114725
 GameObject:
   m_ObjectHideFlags: 0
