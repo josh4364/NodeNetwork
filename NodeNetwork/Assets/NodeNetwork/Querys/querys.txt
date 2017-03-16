@@ -1,0 +1,10 @@
+//make a node with data
+merge (n:Unity{Name:"Programing", data:"text here"}) return n
+
+//make a node relationship
+//Atomic Data / idea / info --TO--> General Concepts -> overall concept
+//relationship holds short, long term values for searching
+merge (b:Unity{Name:"Programing Language"})
+merge (a:Unity{Name:"C#"})
+merge (a)-[r:Rel{Short:0, Long:1}]->(b)
+return a, b, r

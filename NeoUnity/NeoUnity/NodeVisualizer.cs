@@ -26,6 +26,39 @@ namespace NeoUnity
 
             Neo4j.Query(Query);
 
+            var nodes = new Dictionary<int, Node>();
+            nodes.Add(0, new Node
+            {
+                Name = "Computers"
+            });
+            nodes.Add(1, new Node
+            {
+                Name = "Programing"
+            });
+            nodes.Add(2, new Node
+            {
+                Name = "Programing Language"
+            });
+            nodes.Add(3, new Node
+            {
+                Name = "C#"
+            });
+            nodes.Add(4, new Node
+            {
+                Name = "C++"
+            });
+            nodes.Add(5, new Node
+            {
+                Name = "Java"
+            });
+            nodes.Add(6, new Node
+            {
+                Name = "Lua"
+            });
+            nodes.Add(7, new Node
+            {
+                Name = "python"
+            });
         }
 
 
