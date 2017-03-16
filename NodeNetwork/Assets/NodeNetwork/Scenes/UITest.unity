@@ -368,11 +368,11 @@ MonoBehaviour:
   RememberDataText: {fileID: 529782316}
   RememberRelatedText: {fileID: 504912388}
   ForgetText: {fileID: 1209221771}
-  Zoom: 1
+  Zoom: 8
   MinZoom: 1
   MaxZoom: 100
-  ZoomSpeed: 20
-  PanMult: 2
+  ZoomSpeed: 40
+  PanMult: 4
 --- !u!114 &188470217
 MonoBehaviour:
   m_ObjectHideFlags: 0

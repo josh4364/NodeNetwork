@@ -27,6 +27,15 @@ public class UIManager : MonoBehaviour
 
     private GameObject _nodeCard;
 
+
+    void Start()
+    {
+
+        RecallEverything();
+    }
+
+
+
     public void ForgetEverything()
     {
         Server.Query("MATCH (n:Unity) DETACH DELETE (n)");
@@ -84,7 +93,6 @@ public class UIManager : MonoBehaviour
                 {
                     rt.position += new Vector3(_tSpeed, 0, 0) * Time.deltaTime;
                 }
-
             }
         }
 
@@ -114,16 +122,11 @@ public class UIManager : MonoBehaviour
                     {
                         DestroyImmediate(_nodeCard);
                     }
-
-
-                    
-
                 }
             }
             else
             {
                 DestroyImmediate(_nodeCard);
-
             }
         }
 
@@ -148,7 +151,7 @@ public class UIManager : MonoBehaviour
         Camera.main.orthographicSize = Zoom;
 
     }
-    public float Zoom = 1;
+    public float Zoom = 8;
     public float MinZoom = 1;
     public float MaxZoom = 100;
     public float ZoomSpeed = 20f;

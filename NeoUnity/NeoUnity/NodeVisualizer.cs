@@ -102,16 +102,11 @@ namespace NeoUnity
         void Awake()
         {
             Singleton = this;
-        }
-
-        void Start()
-        {
             Server.DebugLog = DebugLog;
             Server.Username = Username;
             Server.Password = Password;
             Server.IP = IP;
         }
-
 
     }
 }
