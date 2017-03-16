@@ -269,11 +269,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NodePrefab: {fileID: 1757042146558276, guid: 0f67c4e74d1a4b341ba97fe83bdf4b5d, type: 2}
-  Query: match (a:Unity{Name:\"C#\"}) -[r]-> (b) return a, r, b
+  Query: match (n:Unity) return n
   Username: neo4j
   Password: asdf
-  Server: localhost:7474
+  IP: localhost:7474
   DebugLog: 1
+  result:
+    results: []
 --- !u!4 &1591384740
 Transform:
   m_ObjectHideFlags: 0

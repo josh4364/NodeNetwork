@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using UnityEngine;
 
 namespace NeoUnity
 {
-    [Serializable]
-    public class Node
+    public class Node : MonoBehaviour
     {
         public int ID;
         public string Name;
+
+        [System.NonSerialized]
         public string Data;
     }
 }

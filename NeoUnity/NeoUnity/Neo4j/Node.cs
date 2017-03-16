@@ -6,8 +6,8 @@ namespace NeoUnity.Neo4j
     [Serializable]
     public class Node
     {
-        public string id { get; set; }
-        public List<string> labels { get; set; }
-        public NodeProperties properties { get; set; }
+        public string id;
+        public List<string> labels;
+        public NodeProperties properties;
     }
 }

@@ -8,7 +8,7 @@ namespace NeoUnity.Neo4j
     [Serializable]
     public class Graph
     {
-        public List<Node> nodes { get; set; }
-        public List<Relationship> relationships { get; set; }
+        public List<Node> nodes;
+        public List<Relationship> relationships;
     }
 }

@@ -15,51 +15,66 @@ namespace NeoUnity
 
         public string Username;
         public string Password;
-        public string Server;
+        public string IP;
         public bool DebugLog = false;
+        public RootObject result;
 
         void Start()
         {
-            Neo4j.Server.DebugLog = DebugLog;
-            Neo4j.Server.Username = Username;
-            Neo4j.Server.Password = Password;
-            Neo4j.Server.IP = Server;
+            Server.DebugLog = DebugLog;
+            Server.Username = Username;
+            Server.Password = Password;
+            Server.IP = IP;
 
-            Neo4j.Server.Query(Query);
+            result = Server.QueryObject(Query);
 
             var nodes = new Dictionary<int, Node>();
-            nodes.Add(0, new Node
+
+            //does this query even return data
+            if (result.results.Count > 0)
             {
-                Name = "Computers"
-            });
-            nodes.Add(1, new Node
-            {
-                Name = "Programing"
-            });
-            nodes.Add(2, new Node
-            {
-                Name = "Programing Language"
-            });
-            nodes.Add(3, new Node
-            {
-                Name = "C#"
-            });
-            nodes.Add(4, new Node
-            {
-                Name = "C++"
-            });
-            nodes.Add(5, new Node
-            {
-                Name = "Java"
-            });
-            nodes.Add(6, new Node
-            {
-                Name = "Lua"
-            });
-            nodes.Add(7, new Node
-            {
-                Name = "python"
-            });
+                float x = 0;
+                foreach (var graphdata in result.results[0].data)
+                {
+                    //loop though all neo4j nodes and make our nodes from it
+                    foreach (var node in graphdata.graph.nodes)
+                    {
+                        var go = Instantiate(NodePrefab);
+                        go.transform.position = new Vector3(x, 0, 0);
+                        var n = go.GetComponent<Node>();
+                        n.ID = int.Parse(node.id);
+                        n.Name = node.properties.Name;
+                        n.Data = node.properties.data;
+
+                        go.name = n.ID + ":" + n.Name;
+
+                        if (n.Name == "hurts to live")
+                        {
+                            Debug.Log("Ayy");
+
+                            //System.Convert.ToBase64String()
+                            var pngBytes = Convert.FromBase64String(n.Data);
+
+                            var t = new Texture2D(1, 1);
+                            t.LoadImage(pngBytes);
+                            t.Apply();
+
+                            go.GetComponent<Renderer>().material.mainTexture = t;
+                        }
+
+                        if (nodes.ContainsKey(n.ID))
+                        {
+                            Debug.LogError("Duplicate Node " + n.ID + ", Droping Node");
+                        }
+                        else
+                        {
+                            nodes.Add(n.ID, n);
+                        }
+
+                        x += 2.0f;
+                    }
+                }
+            }
         }
 
 

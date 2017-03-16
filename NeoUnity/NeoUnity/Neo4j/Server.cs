@@ -60,5 +60,11 @@ namespace NeoUnity.Neo4j
                 return "{}";
             }
         }
+
+        public static RootObject QueryObject(string query)
+        {
+            return JsonUtility.FromJson<RootObject>(Query(query));
+        }
+
     }
 }
