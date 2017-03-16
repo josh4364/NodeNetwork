@@ -10,19 +10,22 @@ namespace NeoUnity
 {
     public static class Neo4j
     {
-        public static Root Query(string Query)
+        public static string Username = "neo4j";
+        public static string Password = "neo4j";
+        public static string Server = "localhost:7474";
+        public static bool DebugLog = false;
+
+        public static string Query(string Query)
         {
             try
             {
                 //build request
-                var wreq = WebRequest.Create("http://localhost:7474/db/data/transaction/commit");
+                var wreq = WebRequest.Create("http://" + Server + "/db/data/transaction/commit");
                 wreq.Method = "POST";
-                wreq.Credentials = new NetworkCredential("neo4j", "asdf");
-
+                wreq.Credentials = new NetworkCredential(Username, Password);
+                
                 //grab request stream so we can send some json
                 var requestStream = new StreamWriter(wreq.GetRequestStream());
-
-                //var requestJson = "{\"statements\" : [ {\"statement\" : \"MATCH (n) RETURN (n)\"} ]}";
                 requestStream.Write("{\"statements\" : [ { \"statement\" : \"" + Query + "\", \"resultDataContents\" : [ \"graph\" ] } ]}");
 
                 //close up the io
@@ -40,17 +43,21 @@ namespace NeoUnity
                 streamReader.Close();
                 stream.Close();
 
-                Debug.Log(responseJson);
-                Debug.Log("Request Headers:\n" + wreq.Headers);
-                Debug.Log("Responce Headers:\n" + wres.Headers);
+                if (DebugLog)
+                {
+                    Debug.Log("Request Headers:\n" + wreq.Headers);
+                    Debug.Log("Responce Headers:\n" + wres.Headers);
+                    Debug.Log("Responce Json:" + responseJson);
+                }
 
-                return JsonUtility.FromJson<Root>(responseJson);
+                //return JsonUtility.FromJson<Root>(responseJson);
+                return responseJson;
             }
             catch (WebException webex)
             {
-                Debug.Log("Was not able to run query against neo4j.\nReason:" + webex.Message);
+                Debug.LogError("Was not able to run query against neo4j.\nReason:" + webex.Message);
 
-                return null;
+                return "{}";
             }
         }
     }
