@@ -31,26 +31,28 @@ public class UIManager : MonoBehaviour
 
     public void Forget()
     {
-        Debug.Log(Server.Query($"MATCH (n:Unity {{Name:\"{ForgetText.text}\"}}) DETACH DELETE (n)"));
+        Debug.Log(Server.Query($"MATCH (n:Unity {{Name:\\\"{ForgetText.text}\\\"}}) DETACH DELETE (n)"));
     }
 
     public void Remember()
     {
         if (RememberRelatedText.text != "")
         {
-            RootObject s = Server.QueryObject($"MATCH (n:Unity {{Name:\"{RememberRelatedText.text}\"}}) RETURN (n)");
+            RootObject s = Server.QueryObject($"MATCH (n:Unity {{Name:\\\"{RememberRelatedText.text}\\\"}}) RETURN (n)");
             if (s.results[0].data.Count > 0)
             {
-                Server.Query($"MERGE (n:Unity {{Name:\"{RememberText.text}\", data\"{RememberDataText.text}\"}}) -[r:Rel]-> MATCH (p:Unity {{Name:\"{RememberRelatedText.text}\"}}) return n,r,p");
+                Server.Query($"MERGE(n:Unity {{Name:\\\"{RememberText.text}\\\", data:\\\"{RememberDataText.text}\\\"}}) WITH n MATCH(p:Unity {{Name:\\\"{RememberRelatedText.text}\\\"}}) WITH n,p MERGE (n) -[r:Rel]-> (p) return n,r,p");
             }
             else
             {
-                Server.Query($"MERGE (n:Unity {{Name:\"{RememberText.text}\", data\"{RememberDataText.text}\"}}) -[r:Rel]-> MERGE (p:Unity {{Name:\"{RememberRelatedText.text}\"}}) return n,r,p");
+                Server.Query("MERGE (a:Unity{Name:\"" + RememberText.text + "\", data:\"" + RememberDataText.text + "\"}) MERGE (b:Unity{Name:\"" + RememberRelatedText.text + "\"}) MERGE (a) -[r:Rel]-> (b) return a, r, b");
             }
         }
         else
         {
-            Server.Query($"MERGE (n:Unity {{Name:\"{RememberText.text}\", data\"{RememberDataText.text}\"}})");
+            string s = $"MERGE (n:Unity {{Name:\\\"{RememberText.text}\\\", data:\\\"{RememberDataText.text}\\\"}}) RETURN n";
+            Debug.Log(s);
+            Server.Query(s);
         }
     }
 
