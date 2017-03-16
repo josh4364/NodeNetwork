@@ -112,11 +112,18 @@ public class UIManager : MonoBehaviour
         {
             float x = -Input.GetAxis("Mouse X");
             float y = -Input.GetAxis("Mouse Y");
-            this.transform.position += new Vector3(x, y);
+            this.transform.position += new Vector3(x, y) * (Zoom / MaxZoom) * PanMult;
         }
 
+        Zoom = Mathf.Clamp(Zoom - (Input.GetAxis("Mouse ScrollWheel") * (Zoom / MaxZoom) * ZoomSpeed), MinZoom, MaxZoom);
+        Camera.main.orthographicSize = Zoom;
 
     }
+    public float Zoom = 1;
+    public float MinZoom = 1;
+    public float MaxZoom = 100;
+    public float ZoomSpeed = 20f;
+    public float PanMult = 2f;
 
     void OnDrawGizmos()
     {
