@@ -60,6 +60,7 @@
     <Compile Include="Neo4j\RelationshipProperties.cs" />
     <Compile Include="Neo4j\Result.cs" />
     <Compile Include="Neo4j\RootObject.cs" />
+    <Compile Include="Relationship.cs" />
     <Compile Include="UIManager.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

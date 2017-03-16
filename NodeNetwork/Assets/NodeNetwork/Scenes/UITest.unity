@@ -377,6 +377,8 @@ MonoBehaviour:
   m_Script: {fileID: 694212805, guid: 30bf353ae3a8bf34995028ae003d74fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  RelationshipPrefab: {fileID: 1134709528730718, guid: 244579b1b1db2974e8c7ca28a2614465,
+    type: 2}
   NodePrefab: {fileID: 1757042146558276, guid: 0f67c4e74d1a4b341ba97fe83bdf4b5d, type: 2}
   Query: match (n:Unity) return n
   Username: neo4j
