@@ -20,3 +20,15 @@ match (a:Unity{Name:"C#"}) -[r0]-> (b) <-[r1]- (c) return c
 
 //everything related in common of c#
 match (a:Unity{Name:"C#"}) -[r0]-> (b) -[r1]-> (c) return c
+
+//delete all duplicate propertys
+MATCH (n:Input)
+WITH n.inputID AS inputID, collect(n) AS nodes
+WHERE size(nodes) > 1
+FOREACH (n in tail(nodes) | DELETE n)
+
+//update the data property on the node "Programing"
+merge (b:Unity{Name:"Programing"})
+SET b.Data = "asdf"
+return b
+
