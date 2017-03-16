@@ -22,6 +22,7 @@ namespace NeoUnity
             Neo4j.DebugLog = DebugLog;
             Neo4j.Username = Username;
             Neo4j.Password = Password;
+            Neo4j.Server = Server;
 
             Neo4j.Query(Query);
 
