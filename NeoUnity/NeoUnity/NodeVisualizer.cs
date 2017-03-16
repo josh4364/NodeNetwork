@@ -4,6 +4,7 @@ using System.IO;
 using System.Net;
 using System.Text;
 using UnityEngine;
+using NeoUnity.Neo4j;
 
 namespace NeoUnity
 {
@@ -19,12 +20,12 @@ namespace NeoUnity
 
         void Start()
         {
-            Neo4j.DebugLog = DebugLog;
-            Neo4j.Username = Username;
-            Neo4j.Password = Password;
-            Neo4j.Server = Server;
+            Neo4j.Server.DebugLog = DebugLog;
+            Neo4j.Server.Username = Username;
+            Neo4j.Server.Password = Password;
+            Neo4j.Server.IP = Server;
 
-            Neo4j.Query(Query);
+            Neo4j.Server.Query(Query);
 
             var nodes = new Dictionary<int, Node>();
             nodes.Add(0, new Node

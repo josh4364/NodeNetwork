@@ -8,3 +8,15 @@ merge (b:Unity{Name:"Programing Language"})
 merge (a:Unity{Name:"C#"})
 merge (a)-[r:Rel{Short:0, Long:1}]->(b)
 return a, b, r
+
+//find a single node
+match (a:Unity{Name:"C#"}) return a
+
+//find a node and things related to it
+match (a:Unity{Name:"C#"}) -[r]-> (b) return a, r, b
+
+//something related to concept c# is related to
+match (a:Unity{Name:"C#"}) -[r0]-> (b) <-[r1]- (c) return c
+
+//everything related in common of c#
+match (a:Unity{Name:"C#"}) -[r0]-> (b) -[r1]-> (c) return c

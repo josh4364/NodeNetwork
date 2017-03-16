@@ -6,13 +6,13 @@ using System.Net;
 using System.Text;
 using UnityEngine;
 
-namespace NeoUnity
+namespace NeoUnity.Neo4j
 {
-    public static class Neo4j
+    public static class Server
     {
         public static string Username = "neo4j";
         public static string Password = "neo4j";
-        public static string Server = "localhost:7474";
+        public static string IP = "localhost:7474";
         public static bool DebugLog = false;
 
         public static string Query(string Query)
@@ -20,7 +20,7 @@ namespace NeoUnity
             try
             {
                 //build request
-                var wreq = WebRequest.Create("http://" + Server + "/db/data/transaction/commit");
+                var wreq = WebRequest.Create("http://" + IP + "/db/data/transaction/commit");
                 wreq.Method = "POST";
                 wreq.Credentials = new NetworkCredential(Username, Password);
                 
