@@ -2,5 +2,4 @@
 Simple Node network for testing neo4j as a simulation backend
 
 WIP Screenshot: Programing Languages to Car and Planes
-
-[[/blob/master/simple network.png|alt=simple network]]
+<img align="center" src="/simple network.png?raw=true" width="400" alt="Screenshot of simple network">
