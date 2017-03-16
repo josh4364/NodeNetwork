@@ -1,7 +1,6 @@
 *.suo
 *.cache
 *.csproj
-*.sln
 
 */bin
 */obj
