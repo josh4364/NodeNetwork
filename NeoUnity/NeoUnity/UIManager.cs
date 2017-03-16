@@ -132,7 +132,8 @@ public class UIManager : MonoBehaviour
     }
     public void Recall()
     {
-        Server.Query(QueryText.text);
+        RootObject o =  Server.QueryObject(QueryText.text);
+        NodeVisualizer.Singleton.SpawnWorldNodes(o?.results[0]?.data);
     }
     public void ToggleMenu()
     {
