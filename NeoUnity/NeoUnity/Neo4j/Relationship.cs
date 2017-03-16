@@ -1,4 +1,6 @@
-﻿namespace NeoUnity.Neo4j
+﻿using System;
+
+namespace NeoUnity.Neo4j
 {
     [Serializable]
     public class Relationship
